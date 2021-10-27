@@ -1,18 +1,22 @@
 import UIKit
 public class PBCircularProgressView: UIView {
+  /// To hide the pauseDownloadButton. Default is False
   var hidePauseDownloadButton: Bool = false {
     didSet {
       self.isHidden = hidePauseDownloadButton
     }
   }
-  var pauseDownloadButtonSize: CGSize = .zero {
+  /// To set the pauseDownloadButton width and height
+  var pauseDownloadButtonSize: CGSize = CGSize(width: 35, height: 35) {
     didSet {
       pauseDownloadButton.widthAnchor.constraint(equalToConstant: pauseDownloadButtonSize.width).isActive = true
       pauseDownloadButton.heightAnchor.constraint(equalToConstant: pauseDownloadButtonSize.height).isActive = true
     }
   }
   private var isPaused: Bool = false
+  /// PauseDownloadButton Action Callback
   var pauseDownloadButtonAction: ((Bool) -> Void)?
+  var progressAnimationDuration: TimeInterval = 0.35
   lazy private var pauseDownloadButton: UIButton = {
     let button = UIButton()
     button.setImage(UIImage(named: "pause")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal), for: .normal)
@@ -42,14 +46,15 @@ public class PBCircularProgressView: UIView {
   init(arcRadius: CGFloat = 20,
        lineWidth: CGFloat = 5,
        circleStrokeColor: UIColor = .lightGray,
-       progressStrokeColor: UIColor = .red) {
+       progressStrokeColor: UIColor = .red,
+       progressAnimationDuration: TimeInterval = 0.35) {
     self.arcRadius = arcRadius
     self.lineWidth = lineWidth
     self.circleStrokeColor = circleStrokeColor
     self.progressStrokeColor = progressStrokeColor
+    self.progressAnimationDuration = progressAnimationDuration
     super.init(frame: .zero)
     self.translatesAutoresizingMaskIntoConstraints = false
-    self.backgroundColor = .yellow
     addDownloadPauseButton()
     createCircularPath()
   }
@@ -85,13 +90,13 @@ public class PBCircularProgressView: UIView {
     // added progressLayer to layer
     layer.addSublayer(progressLayer)
   }
-  func progressAnimation(duration: TimeInterval = 0.35) {
+  func progressAnimation() {
     // created circularProgressAnimation with keyPath
     let circularProgressAnimation = CABasicAnimation(keyPath: "strokeEnd")
     // set the end time
     circularProgressAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName(rawValue: "easeInEaseOut"))
     progressLayer.strokeColor = progressStrokeColor.cgColor
-    circularProgressAnimation.duration = duration
+    circularProgressAnimation.duration = progressAnimationDuration
     circularProgressAnimation.fromValue = previousProgress
     circularProgressAnimation.toValue = progress
     circularProgressAnimation.fillMode = .forwards

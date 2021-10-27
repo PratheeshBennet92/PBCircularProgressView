@@ -1,7 +1,7 @@
 import UIKit
 class ViewController: UIViewController {
   var circularProgressBarView: PBCircularProgressView!
-  var circularViewDuration: TimeInterval = 2
+  var progressAnimationDuration: TimeInterval = 2
   override func viewDidLoad() {
     super.viewDidLoad()
     setUpCircularProgressBarView()
@@ -9,7 +9,11 @@ class ViewController: UIViewController {
   }
   func setUpCircularProgressBarView() {
     // set view
-    circularProgressBarView = PBCircularProgressView(arcRadius: 20)
+    circularProgressBarView = PBCircularProgressView(arcRadius: 20,
+                                                     lineWidth: 5,
+                                                     circleStrokeColor: .lightGray,
+                                                     progressStrokeColor: .red,
+                                                     progressAnimationDuration: 0.35)
     circularProgressBarView.pauseDownloadButtonAction = { pauseStatus in
       print(pauseStatus)
     }
@@ -19,13 +23,13 @@ class ViewController: UIViewController {
     circularProgressBarView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
     circularProgressBarView.widthAnchor.constraint(equalToConstant: 40).isActive = true
     circularProgressBarView.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
       self.circularProgressBarView.progress = 0.25
-      DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
         self.circularProgressBarView.progress = 0.5
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
           self.circularProgressBarView.progress = 0.75
-          DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+          DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.circularProgressBarView.progress = 1
           }
         }
