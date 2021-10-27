@@ -1,10 +1,31 @@
 import UIKit
+/*
+ ProgressStatus based on the progress.
+ 0 ->  NotStarted
+ 1 ->  Completed
+ 0...1 ->  InProgress
+ */
 public enum ProgressStatus {
   case InProgress
   case Completed
   case NotStarted
+  case Invalid
+  init(progress: CGFloat) {
+    switch progress {
+    case 0:
+      self = .NotStarted
+    case 1:
+      self = .Completed
+    case 0..<1:
+      self = .InProgress
+    default:
+      self = .Invalid
+    }
+  }
 }
 public class PBCircularProgressView: UIView {
+  let kPlayImage = "play"
+  let kPauseImage = "pause"
   /// To hide the pauseDownloadButton. Default is False
   var hidePauseDownloadButton: Bool = false {
     didSet {
@@ -18,6 +39,7 @@ public class PBCircularProgressView: UIView {
       pauseDownloadButton.heightAnchor.constraint(equalToConstant: pauseDownloadButtonSize.height).isActive = true
     }
   }
+  /// ProgressStatus based on the progress.
   var progressStatus: ProgressStatus = .NotStarted
   private var isPaused: Bool = false
   /// PauseDownloadButton Action Callback
@@ -41,7 +63,7 @@ public class PBCircularProgressView: UIView {
   private var previousProgress: CGFloat = 0
   var progress: CGFloat = 0 {
     didSet {
-      setProgressStatus()
+      progressStatus = ProgressStatus(progress: progress)
       progressAnimation()
     }
   }
@@ -97,18 +119,6 @@ public class PBCircularProgressView: UIView {
     // added progressLayer to layer
     layer.addSublayer(progressLayer)
   }
-  private func setProgressStatus() {
-    switch progress {
-    case 0:
-      self.progressStatus = .NotStarted
-    case 1:
-      self.progressStatus = .Completed
-    case 0..<1:
-      self.progressStatus = .InProgress
-    default:
-      break
-    }
-  }
   func progressAnimation() {
     // created circularProgressAnimation with keyPath
     let circularProgressAnimation = CABasicAnimation(keyPath: "strokeEnd")
@@ -133,7 +143,7 @@ public class PBCircularProgressView: UIView {
   }
   @objc private func pauseDownloadTapped() {
     isPaused = !isPaused
-    isPaused ? pauseDownloadButton.setImage(UIImage(named: "play")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal), for: .normal) :  pauseDownloadButton.setImage(UIImage(named: "pause")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal), for: .normal)
+    isPaused ? pauseDownloadButton.setImage(UIImage(named: kPlayImage)?.withTintColor(.lightGray, renderingMode: .alwaysOriginal), for: .normal) :  pauseDownloadButton.setImage(UIImage(named: kPauseImage)?.withTintColor(.lightGray, renderingMode: .alwaysOriginal), for: .normal)
     self.pauseDownloadButtonAction?(isPaused, self.progressStatus)
   }
 }
