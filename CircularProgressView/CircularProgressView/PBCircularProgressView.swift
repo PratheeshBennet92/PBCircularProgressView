@@ -85,11 +85,11 @@ public class PBCircularProgressView: UIView {
     // added progressLayer to layer
     layer.addSublayer(progressLayer)
   }
-  func progressAnimation(duration: TimeInterval = 0.5) {
+  func progressAnimation(duration: TimeInterval = 0.35) {
     // created circularProgressAnimation with keyPath
     let circularProgressAnimation = CABasicAnimation(keyPath: "strokeEnd")
     // set the end time
-    circularProgressAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName(rawValue: "easeInEaseOut") )
+    circularProgressAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName(rawValue: "easeInEaseOut"))
     progressLayer.strokeColor = progressStrokeColor.cgColor
     circularProgressAnimation.duration = duration
     circularProgressAnimation.fromValue = previousProgress
