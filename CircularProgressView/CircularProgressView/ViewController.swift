@@ -14,10 +14,6 @@ class ViewController: UIViewController {
       print(pauseStatus)
     }
     circularProgressBarView.pauseDownloadButtonSize = CGSize(width: 35, height: 35)
-    // align to the center of the screen
-    circularProgressBarView.center = view.center
-    // call the animation with circularViewDuration
-    // add this view to the view controller
     view.addSubview(circularProgressBarView)
     circularProgressBarView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
     circularProgressBarView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
