@@ -1,6 +1,6 @@
 # PBCircularProgressView
 ## Overview
-PBCircularProgressView is a circular progress view similar to the app store download progress view. It also has an inbuilt pause/resume button from which you can receive call the button backs. 
+PBCircularProgressView is a circular progress view for iOS similar to the app store download progress view. It also has an inbuilt pause/resume button from which you can receive call the button backs. 
 
 ![alt text](https://github.com/PratheeshBennet92/PBCircularProgressView/blob/main/PBProgressCircularProgressView.gif)
 
