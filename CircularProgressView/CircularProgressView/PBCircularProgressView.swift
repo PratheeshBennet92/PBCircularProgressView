@@ -47,7 +47,7 @@ public class PBCircularProgressView: UIView {
   var progressAnimationDuration: TimeInterval = 0.35
   lazy private var pauseDownloadButton: UIButton = {
     let button = UIButton()
-    button.setImage(UIImage(named: "pause")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal), for: .normal)
+    button.setImage(UIImage(named: kPauseImage)?.withTintColor(.lightGray, renderingMode: .alwaysOriginal), for: .normal)
     button.imageView?.contentMode = .scaleAspectFit
     button.contentHorizontalAlignment = .fill
     button.contentVerticalAlignment = .fill
@@ -61,6 +61,7 @@ public class PBCircularProgressView: UIView {
   private var circleStrokeColor: UIColor
   private var progressStrokeColor: UIColor
   private var previousProgress: CGFloat = 0
+  /// Progress value. Min = 0, Max = 1
   var progress: CGFloat = 0 {
     didSet {
       progressStatus = ProgressStatus(progress: progress)
@@ -95,34 +96,29 @@ public class PBCircularProgressView: UIView {
     createCircularPath()
   }
   func createCircularPath() {
-    // created circularPath for circleLayer and progressLayer
     circularPath = UIBezierPath(arcCenter: CGPoint(x: frame.size.width / 2.0, y: frame.size.height / 2.0), radius: 20, startAngle: startPoint, endAngle: endPoint, clockwise: true)
-    // circleLayer path defined to circularPath
+    
     circleLayer.path = circularPath.cgPath
-    // ui edits
     circleLayer.fillColor = UIColor.clear.cgColor
     circleLayer.lineCap = .round
     circleLayer.lineWidth = self.lineWidth
     circleLayer.strokeEnd = 1.0
     circleLayer.strokeColor = circleStrokeColor.cgColor
-    // added circleLayer to layer
+
     layer.addSublayer(circleLayer)
-    // progressLayer path defined to circularPath
+
     progressLayer.path = circularPath.cgPath
-    // ui edits
     progressLayer.fillColor = UIColor.clear.cgColor
     progressLayer.lineCap = .round
     progressLayer.lineWidth = self.lineWidth
     progressLayer.strokeEnd = progress
     progressLayer.strokeStart = 0
     progressLayer.strokeColor = progressStrokeColor.cgColor
-    // added progressLayer to layer
+
     layer.addSublayer(progressLayer)
   }
   func progressAnimation() {
-    // created circularProgressAnimation with keyPath
     let circularProgressAnimation = CABasicAnimation(keyPath: "strokeEnd")
-    // set the end time
     circularProgressAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName(rawValue: "easeInEaseOut"))
     progressLayer.strokeColor = progressStrokeColor.cgColor
     circularProgressAnimation.duration = progressAnimationDuration
