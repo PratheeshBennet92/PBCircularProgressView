@@ -14,8 +14,8 @@ class ViewController: UIViewController {
                                                      circleStrokeColor: .lightGray,
                                                      progressStrokeColor: .red,
                                                      progressAnimationDuration: 0.35)
-    circularProgressBarView.pauseDownloadButtonAction = { pauseStatus in
-      print(pauseStatus)
+    circularProgressBarView.pauseDownloadButtonAction = { pauseStatus, progressStatus in
+      print(pauseStatus, progressStatus)
     }
     circularProgressBarView.pauseDownloadButtonSize = CGSize(width: 35, height: 35)
     view.addSubview(circularProgressBarView)
