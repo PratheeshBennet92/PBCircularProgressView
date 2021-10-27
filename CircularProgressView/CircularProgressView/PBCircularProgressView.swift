@@ -5,6 +5,12 @@ public class PBCircularProgressView: UIView {
       self.isHidden = hidePauseDownloadButton
     }
   }
+  var pauseDownloadButtonSize: CGSize = .zero {
+    didSet {
+      pauseDownloadButton.widthAnchor.constraint(equalToConstant: pauseDownloadButtonSize.width).isActive = true
+      pauseDownloadButton.heightAnchor.constraint(equalToConstant: pauseDownloadButtonSize.height).isActive = true
+    }
+  }
   private var isPaused: Bool = false
   var pauseDownloadButtonAction: ((Bool) -> Void)?
   lazy private var pauseDownloadButton: UIButton = {
@@ -100,8 +106,6 @@ public class PBCircularProgressView: UIView {
     self.addSubview(pauseDownloadButton)
     pauseDownloadButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
     pauseDownloadButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-    pauseDownloadButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
-    pauseDownloadButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
   }
   @objc private func pauseDownloadTapped() {
     isPaused = !isPaused
