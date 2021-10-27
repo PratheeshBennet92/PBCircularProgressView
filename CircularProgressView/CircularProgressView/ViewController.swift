@@ -15,13 +15,17 @@ class ViewController: UIViewController {
     // call the animation with circularViewDuration
     // add this view to the view controller
     view.addSubview(circularProgressBarView)
-    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+    circularProgressBarView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+    circularProgressBarView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+    circularProgressBarView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+    circularProgressBarView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
       self.circularProgressBarView.progress = 0.25
-      DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
         self.circularProgressBarView.progress = 0.5
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
           self.circularProgressBarView.progress = 0.75
-          DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+          DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             self.circularProgressBarView.progress = 1
           }
         }
