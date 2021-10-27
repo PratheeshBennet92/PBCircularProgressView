@@ -10,6 +10,9 @@ class ViewController: UIViewController {
   func setUpCircularProgressBarView() {
     // set view
     circularProgressBarView = PBCircularProgressView(arcRadius: 20)
+    circularProgressBarView.pauseDownloadButtonAction = { pauseStatus in
+      print(pauseStatus)
+    }
     // align to the center of the screen
     circularProgressBarView.center = view.center
     // call the animation with circularViewDuration

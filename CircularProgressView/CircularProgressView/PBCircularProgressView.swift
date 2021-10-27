@@ -1,5 +1,23 @@
 import UIKit
 public class PBCircularProgressView: UIView {
+  var hidePauseDownloadButton: Bool = false {
+    didSet {
+      self.isHidden = hidePauseDownloadButton
+    }
+  }
+  private var isPaused: Bool = false
+  var pauseDownloadButtonAction: ((Bool) -> Void)?
+  lazy private var pauseDownloadButton: UIButton = {
+    let button = UIButton()
+    button.setImage(UIImage(named: "pause")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal), for: .normal)
+    button.imageView?.contentMode = .scaleAspectFit
+    button.contentHorizontalAlignment = .fill
+    button.contentVerticalAlignment = .fill
+    button.imageEdgeInsets = UIEdgeInsets(top: 10, left: 6, bottom: 10, right: 6)
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.addTarget(self, action: #selector(pauseDownloadTapped), for: .touchUpInside)
+    return button
+  }()
   private var arcRadius: CGFloat
   private var lineWidth: CGFloat
   private var circleStrokeColor: UIColor
@@ -26,6 +44,7 @@ public class PBCircularProgressView: UIView {
     super.init(frame: .zero)
     self.translatesAutoresizingMaskIntoConstraints = false
     self.backgroundColor = .yellow
+    addDownloadPauseButton()
     createCircularPath()
   }
   required init?(coder: NSCoder) {
@@ -76,5 +95,17 @@ public class PBCircularProgressView: UIView {
       self.previousProgress = self.progress
     }
     progressLayer.add(circularProgressAnimation, forKey: "progressAnim")
+  }
+  private func addDownloadPauseButton() {
+    self.addSubview(pauseDownloadButton)
+    pauseDownloadButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+    pauseDownloadButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+    pauseDownloadButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
+    pauseDownloadButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+  }
+  @objc private func pauseDownloadTapped() {
+    isPaused = !isPaused
+    isPaused ?  pauseDownloadButton.setImage(UIImage(named: "play")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal), for: .normal) :  pauseDownloadButton.setImage(UIImage(named: "pause")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal), for: .normal)
+    self.pauseDownloadButtonAction?(isPaused)
   }
 }
