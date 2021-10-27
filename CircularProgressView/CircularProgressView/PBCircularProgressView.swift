@@ -105,7 +105,7 @@ public class PBCircularProgressView: UIView {
   }
   @objc private func pauseDownloadTapped() {
     isPaused = !isPaused
-    isPaused ?  pauseDownloadButton.setImage(UIImage(named: "play")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal), for: .normal) :  pauseDownloadButton.setImage(UIImage(named: "pause")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal), for: .normal)
+    isPaused ? pauseDownloadButton.setImage(UIImage(named: "play")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal), for: .normal) :  pauseDownloadButton.setImage(UIImage(named: "pause")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal), for: .normal)
     self.pauseDownloadButtonAction?(isPaused)
   }
 }
